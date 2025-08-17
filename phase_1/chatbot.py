@@ -6,6 +6,7 @@ client = OpenAI(openai_api_key) # Replace with your API key
 
 def chat_with_gpt(messages):
     """
+    text 
     messages: list of dicts like
     [
         {"role": "system", "content": "You are a helpful assistant."},
