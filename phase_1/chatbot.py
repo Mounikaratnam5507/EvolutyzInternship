@@ -1,7 +1,10 @@
 import os
+from dotenv import load_dotenv
 from openai import OpenAI
+import streamlit as st
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY") or st.secrets["OPENAI_API_KEY"].rstrip("/")
 client = OpenAI(openai_api_key) # Replace with your API key
 
 def chat_with_gpt(messages):
