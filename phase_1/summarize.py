@@ -1,8 +1,31 @@
 import os
+from dotenv import load_dotenv
 from openai import OpenAI
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(openai_api_key) # Replace with your API key
+try:
+    import streamlit as st
+except Exception:
+    st = None
+
+load_dotenv()
+
+env_key = os.getenv("OPENAI_API_KEY")
+secrets_key = None
+if st is not None:
+    try:
+        # st.secrets behaves like a mapping
+        secrets_key = st.secrets.get("OPENAI_API_KEY")
+    except Exception:
+        secrets_key = None
+
+openai_api_key = (env_key or secrets_key or "").strip()
+
+if not openai_api_key:
+    raise RuntimeError(
+        "OPENAI_API_KEY is not set. Set it in your environment or in Streamlit secrets."
+    )
+
+client = OpenAI(api_key=openai_api_key)
 
 def summarize_text(text):
     response = client.chat.completions.create(
