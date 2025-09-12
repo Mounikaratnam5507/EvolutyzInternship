@@ -1,11 +1,35 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-import streamlit as st
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+try:
+    import streamlit as st
+except Exception:
+    st = None
 
 load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY") or st.secrets["OPENAI_API_KEY"]
-client = OpenAI(openai_api_key) # Replace with your API key
+
+# Prefer env var; fall back to Streamlit secrets if present
+env_key = os.getenv("OPENAI_API_KEY")
+secrets_key = None
+if st is not None:
+    try:
+        # st.secrets behaves like a mapping
+        secrets_key = st.secrets.get("OPENAI_API_KEY")
+    except Exception:
+        secrets_key = None
+
+openai_api_key = (env_key or secrets_key or "").strip()
+
+if not openai_api_key:
+    raise RuntimeError(
+        "OPENAI_API_KEY is not set. Set it in your environment or in Streamlit secrets."
+    )
+
+client = OpenAI(api_key=openai_api_key)
 
 def chat_with_gpt(messages):
     """
