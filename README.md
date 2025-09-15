@@ -6,7 +6,6 @@ A deployed Streamlit application combining a powerful AI chatbot and a text summ
 
 
 🌐 Deployment Link:https://evolutyz-chatbot.streamlit.app/
-Streamlit Chatbot & Summarizer App
 
 🎥 Demo Video:
  https://drive.google.com/file/d/1HVMupc20-paaupy_sKK7lEvvh5Vlm9vc/view?usp=drive_link
